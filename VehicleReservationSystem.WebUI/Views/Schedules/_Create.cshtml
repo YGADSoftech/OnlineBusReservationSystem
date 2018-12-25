@@ -1,0 +1,44 @@
+﻿
+@using (Html.BeginForm("create", "schedules", FormMethod.Post, new { id = "ceatedeptform", enctype = "multipart/form-data" }))
+
+{
+    
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBox("DepartureTime", null, new { @class = "form-control", placeholder = "Enter Departure Time", type = "TimeSpan" })
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+        @Html.DropDownList("VehicleName", (IEnumerable<SelectListItem>)ViewBag.Vehicles, "- Select Vehicle Name -", new { @class = "form-control" })
+        </div>
+     </div>
+
+
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.DropDownList("RouteName", (IEnumerable<SelectListItem>)ViewBag.Routes, "- Select Route Name -", new { @class = "form-control" })
+        </div>
+    </div>
+
+
+
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Save</button>
+        </div>
+
+
+
+
+}

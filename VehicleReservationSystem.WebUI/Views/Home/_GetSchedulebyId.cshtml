@@ -1,0 +1,75 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+@using VehicleReservationSystem.WebUI.Models
+@model IEnumerable<TimeTable>
+@{ 
+    
+    
+ AlertModel alert = TempData["AlertMessage"] as AlertModel;
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mydialog-title">title here</h4>
+            </div>
+            <div id="mydialog-body" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.BeginForm("getschedulebyid","home",FormMethod.Post)
+{
+<div class="col-lg-12">
+    <table class="table table-bordered ">
+        <thead>
+
+            <tr>
+                <th class="col-lg-2">Departure Time</th>
+                <th class="col-lg-2">From</th>
+                <th class="col-lg-2">To</th>
+                <th class="col-lg-2">Vehicle Type</th>
+                <th class="col-lg-1">Vehicle Number</th>
+                <th class="col-lg-1">Price</th>
+                <th class="col-lg-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+
+
+
+                        <td class="col-lg-2">@m.DepartureTime</td>
+                        <td class="col-lg-2">@m.Route.Origin</td>
+                        <td class="col-lg-2">@m.Route.Destination</td>
+                        <td class="col-lg-2">@m.Vehicle.VehicleType</td>
+                        <td class="col-lg-1">@m.Vehicle.RegistrationNumber</td>
+                        <td class="col-lg-1">@m.Route.Price</td>
+
+
+                        <td class="col-lg-2">
+                            @*<button type="button" class="btn btn-xs btn-warning dgbtn-edit" data-vehicleid="@m.Id"><span class="glyphicon glyphicon-edit"></span> </button>*@
+                            <button type="button" class="btn btn-xs btn-danger dgbtn-delete">Book Now </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+}

@@ -1,0 +1,4 @@
+﻿@model VehicleReservationSystem.WebUI.Models.DDLModel
+
+<span class="input-group-addon"><span class="glyphicon @Model.GlyphIcon"></span></span>
+@Html.DropDownList(Model.Name, Model.Values, Model.Caption, new { @class = "form-control" })

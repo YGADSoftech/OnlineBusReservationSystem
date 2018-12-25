@@ -1,0 +1,154 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+@using VehicleReservationSystem.WebUI.Models
+@model IEnumerable<SeatsModel>
+
+@{
+    ViewBag.Title = "Manage Seats";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+    ViewBag.Notify = new VehiclesHandlers().GetAllNotifications() as List<VehicleReservationSystem.Domain.VehicleManagement.Booking>;
+
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mydialog-title">title here</h4>
+            </div>
+            <div id="mydialog-body" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="space" style="margin-top:70px;">
+<table class="table table-bordered">
+    <thead>
+        <tr class="bg-primary">
+            <th colspan="4"><span class="glyphicon glyphicon-tags"></span> &nbsp; Manage Seats [ <a id="create" style="color:white;" href="/seats/create">   Add New</a> ] </th>
+        </tr>
+        <tr class="bg-primary">
+            <th class="col-lg-3">Seat Number</th>
+            <th class="col-lg-3">Is Available Seat</th>
+            <th class="col-lg-3">Vehicle Name</th>
+            <th class="col-lg-3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var m in Model)
+            {
+                <tr>
+                    <td class="col-lg-3">@m.SeatNumber</td>
+                    <td class="col-lg-3">
+                        @(@m.IsAvail == true ? "True":"False")
+                        
+                    </td>
+                    <td class="col-lg-3">@m.VehicleName</td>
+                  
+     
+
+
+                    <td class="col-lg-3">
+                        <button type="button" class="btn btn-xs btn-warning dgbtn-edit" data-seatid="@m.Id"><span class="glyphicon glyphicon-edit"></span> </button>
+                        <button type="button" class="btn btn-xs btn-danger dgbtn-delete" data-seatid="@m.Id"><span class="glyphicon glyphicon-trash"></span> </button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+</div>
+@section myscript{
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("tbody").css("color", "white");
+            $("#create").click(function (event) {
+                event.preventDefault();
+                $.ajax(
+
+                    {
+                        url: "/seats/create"
+                    }
+
+                ).done(function (createform) {
+                    $("#mydialog-title").html("<span class='glyphicon glyphicon-tags'></span> Add Seats");
+                    $("#mydialog-body").html(createform);
+                    $("#mydialog").modal();
+                });
+
+            });
+
+
+
+            $(".dgbtn-delete").click(function (event) {
+                event.preventDefault();
+                var sid = $(this).data("seatid");
+                    $("#mydialog-title").html("Delete Seat");
+                    $("#mydialog-body").html("<h4>Do you really want to delete this seat?</h4>");
+                    $("#mydialog-body").append(" <button id='yes' type='submit' class='btn pull- right'>Yes</button>");
+                    $("#mydialog-body").append(" <button id ='cancel'type='reset' class='btn pull- right'>No</button>");
+                    $("#mydialog").modal();
+                    $("#yes").click(function () {
+
+                        $.ajax({
+
+
+                            url: "/seats/delete/" + sid,
+                            type: "post",
+                            success: function (data) {
+                                window.location.href = data;
+                            }
+
+                        });
+
+
+                    });
+
+                    $("#cancel").click(function () {
+                        location.reload();
+                    });
+
+            });
+
+
+            $(".dgbtn-edit").click(function (event) {
+                event.preventDefault();
+                var sid = $(this).data("seatid");
+                $.ajax(
+                    {
+                        url: "/seats/edit/" + sid
+                    }
+                ).done(function (editform) {
+                    $("#mydialog-title").html("<span class='glyphicon glyphicon-edit'></span> Edit Seat");
+                    $("#mydialog-body").html(editform);
+                    $("#mydialog").modal();
+                });
+            });
+
+
+        });
+
+
+    </script>
+
+
+
+
+}
+
+
+

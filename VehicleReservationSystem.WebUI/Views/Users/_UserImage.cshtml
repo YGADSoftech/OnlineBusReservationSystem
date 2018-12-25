@@ -1,0 +1,10 @@
+﻿@model EVS.Dotnet330.GarmentsShop.WebUI.Models.Users.UserImageModel
+
+@if (!string.IsNullOrEmpty(Model.ImageUrl))
+{
+    <img src="@Model.ImageUrl" alt="@Model.LoginId" style="width:@Model.ImageWidth;height:@Model.ImageHeight" />
+}
+else
+{
+    <img src="~/Images/others/user.png" alt="none" style="width:@Model.ImageWidth;height:@Model.ImageHeight" />
+}

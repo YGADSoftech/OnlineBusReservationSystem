@@ -1,0 +1,46 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+@model VehicleReservationSystem.Domain.VehicleManagement.Vehicle
+
+@using (Html.BeginForm("edit", "vehicles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+   <input type="hidden" name="id" value="@Model.Id"/>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("Name",Model.Name,null, new  {@class="form-control" })
+           
+        </div>
+    </div>
+
+
+   <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("Regno",Model.RegistrationNumber,null, new { @class="form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Select picture of Vehicle</label>
+        <input name="pic" type="file" />
+    </div>
+
+   <div class="form-group">
+       <div class="input-group">
+       <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+       <select class="form-control" name="type">
+           <option value="@Model.VehicleType.Id">@Model.VehicleType.Name</option>
+           @foreach (var t in (IEnumerable<VehicleType>)ViewBag.Types)
+           {
+            <option value="@t.Id">@t.Name</option>
+           }
+       </select>
+           </div>
+   </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Update</button>
+    </div>
+}

@@ -1,0 +1,161 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+@using VehicleReservationSystem.WebUI.Models
+@model Booking
+@{
+    ViewBag.Title = "BookingInfo";
+    Layout = "~/Views/Shared/_UsersLayoutPage.cshtml";
+
+    string[] arr = TempData["arr"] as string[];
+    string result = string.Join(",", arr);
+
+    var datetime = @Session["date"].ToString();
+    TimeTable t = Session["timetable"] as TimeTable;
+
+
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+    
+    <div class="contact_form_container">
+
+        @using (Html.BeginForm("BookingInfo", "Home", FormMethod.Post))
+        {
+
+            <h2 style="margin-left:20px;">Your Information</h2>
+            <div id="contact_form" class="contact_form">
+                
+                
+                    <div class="col-lg-6" style="margin-bottom: 18px">
+                        <div>
+                            <label>Date:</label>
+                            <input name="date" value="@datetime"  class="contact_input contact_input_email inpt" readonly/>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" style="margin-bottom: 18px">
+                        <div>
+                            <label>Seats no:</label>
+                           <input name="seats" value="@result" class="contact_input contact_input_email inpt" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" style="margin-bottom: 18px">
+                        <div>
+                            <input name="timetableid" value="@t.Id" type="hidden" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" style="margin-bottom: 10px">
+                        <div>
+                            <label>Departure Time:</label>
+                            <input name="time" value="@t.DepartureTime" class="contact_input contact_input_email inpt" readonly />
+
+                        </div>
+                    </div>
+
+
+                <div class="col-lg-6" style="margin-bottom: 10px">
+                    <div>
+                        <label>Total Price:</label>
+                        <input name="price" value="@(t.Route.Price * arr.Length)" class="contact_input contact_input_email inpt" readonly />
+
+                    </div>
+                </div>
+               
+
+                <div class="col-lg-6" style="margin-bottom: 18px">
+                    <div>
+                        @Html.TextBox("CustomerName", null, new { @class = "contact_input contact_input_email inpt", placeholder = " Customer Name ", required = "required",id="cname" })
+                        <div class="input_border"></div>
+                        <label id="errorname" style="color:red"></label>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-lg-6" style="margin-bottom: 18px">
+                    <div>
+                        @Html.TextBox("Phoneno", null, new { @class = "contact_input contact_input_email inpt", placeholder = " Contact Number ", required = "required" ,id="phoneno"})
+                        <div class="input_border"></div>
+                        <label id="errorno" style="color:red"></label>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" style="margin-bottom: 18px">
+                    <div>
+                        @Html.TextBox("CNIC", null, new { @class = "contact_input contact_input_email inpt  ", placeholder = " CNIC", required = "required",id="cnic" })
+                        <div class="input_border"></div>
+                        <label id="error" style="color:red"></label>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6" style="margin-bottom: 18px">
+                    <div>
+                        @Html.TextBox("email", null, new { @class = "contact_input contact_input_email inpt", placeholder = " E-mail", required = "required" })
+                        <div class="input_border"></div>
+                    </div>
+                </div>
+
+
+                <button type="submit" id="btnsubmit" class="contact_button" style="margin-bottom:20px;margin-left:20px;">Book Now</button>
+            </div>
+        }
+    </div>
+
+
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+
+<script src="~/Scripts/bootstrap.js"></script>
+<script type="text/javascript">
+ 
+
+            $(function () {
+                $("#btnsubmit").click(function () {
+                    var regex = /^[0-9+]{5}-[0-9+]{7}-[0-9]{1}$/;
+                    var regex_cno = /^[0-9+]{4}-[0-9+]{7}$/;
+                    var cname = /^[a-zA-Z]{3,16}$/;
+
+                    if (!regex.test($("#cnic").val())) {
+                        $("#error").text("Please enter correct format of CNIC like 12345-4249418-1");
+                    }
+             
+                    else {
+                            $("#error").hide;
+                    }
+
+                     if (!regex_cno.test($("#phoneno").val()))
+                    {
+                        $("#errorno").text("Please enter correct format of phone number like 0320-1212304");
+                    }
+
+                    else
+                     {
+                             $("#errorno").hide();   
+                    }
+
+                     if (!cname.test($("#cname").val())) {
+                         $("#errorname").text("Please enter only text format like: abc");
+                     }
+                     else {
+                         $("#errorname").hide();
+                     }
+               
+                });
+            });
+
+     
+
+</script>
+
+
+

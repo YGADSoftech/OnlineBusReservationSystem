@@ -1,0 +1,225 @@
+﻿@using VehicleReservationSystem.Domain.UserManagement
+
+
+@{
+    User currentUser = Session[WebUtil.CURRENT_USER] as User;
+    var notifications = ViewBag.Notify as List<VehicleReservationSystem.Domain.VehicleManagement.Booking>;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Travello</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/css/sb-admin.css" rel="stylesheet">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="~/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .space {
+            margin-top:200px
+        }
+    </style>
+    @RenderSection("css", false)
+        
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Home/Admin">Travello</a>
+            
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+
+
+                        @for (int i = 0; i < notifications.Count; i++)
+    {
+                    <li class="message-preview" data-bookingid="@notifications[i].Id">
+                        <a href="#">
+                            <div class="media">
+                                <span class="pull-left">
+                                    <img class="media-object" src="@Url.Content("~/Images/seat.jpg")" alt="" width="30" height="30">
+                                </span>
+                                <div class="media-body">
+                                    <h5 class="media-heading">
+                                        <strong>@notifications[i].CustomerName.ToUpper()</strong>
+                                    </h5>
+                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> @notifications[i].BookingDateTime.ToShortTimeString()</p>
+                                    <p>
+                                        @notifications[i].CustomerName.ToUpper() has reserved seat
+                                        @for (int j = 0; j < notifications[i].Seats.Count; j++)
+                                         {
+                                        @notifications[i].Seats[j].SeatNumber 
+                                          }
+                                        on <b>@notifications[i].TimeTables.DepartureTime</b> from <b>@notifications[i].TimeTables.Route.Origin.Name</b> to <b>@notifications[i].TimeTables.Route.Destination.Name</b>
+
+</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+}
+
+
+
+
+                    </ul>
+                </li>
+
+
+
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @if (string.IsNullOrWhiteSpace(currentUser.ImageUrl))
+                {
+                    <img src="@Url.Content("~/Images/others/user.png")" class="img-circle" style="width:25px;height:25px;" />
+        }
+        else
+        {
+            <img src="@Url.Content(currentUser.ImageUrl)" class="img-circle" style="width:25px;height:25px;" />
+}
+
+                        <span>@currentUser.FistName @currentUser.LastName<span class="caret"></span> </span>
+                    </a>
+
+
+                    <ul class="dropdown-menu " id="dm">
+                        <li style="padding:15px;text-align:center">
+                            @if (string.IsNullOrWhiteSpace(currentUser.ImageUrl))
+                    {
+                        <img src="@Url.Content("~/Images/others/user.png")" style="width:100px;height:100px;" />
+            }
+            else
+            {
+                <img src="@Url.Content(currentUser.ImageUrl)" style="width:100px;height:100px;" />
+    }
+
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/users/AccountSetting"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                        <li><a href="/users/ChangePassword"><span class="glyphicon glyphicon-asterisk"></span> Change Password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/Users/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+
+
+
+
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="/Cities/manage"><i class="fa fa-fw fa-home"></i> Cities</a>
+                    </li>
+                    <li>
+                        <a href="/Routes/manage"><i class="fa fa-fw fa-road"></i> Routes</a>
+                    </li>
+                    <li>
+                        <a href="/Types/manage"><i class="fa fa-fw fa-bus"></i> Vehicle Types</a>
+                    </li>
+                    <li>
+                        <a href="/Vehicles/manage"><i class="fa fa-fw fa-bus"></i> Vehicles</a>
+                    </li>
+                    <li>
+                        <a href="/Schedules/manage"><i class="fa fa-fw fa-calendar"></i> Schedules</a>
+                    </li>
+                    <li>
+                        <a href="/Seats/manage"><i class="fa fa-fw fa-tag"></i> Seats</a>
+                    </li>
+            
+                    <li>
+                        <a href="/users/manage"><i class="fa fa-fw fa-user"></i> Users</a>
+                    </li>
+
+                  
+                        <li>
+                            <a href="/Home/GetReport?scope=all"><i class="fa fa-fw fa-book"></i>Get All Booking Reports </a>
+                        </li>
+                        <li>
+                            <a href="/Home/GetReport?scope=previous"><i class="fa fa-fw fa-book"></i>Previous Booking Reports</a>
+                        </li>
+                        <li>
+                            <a href="/Home/GetReport?scope=upcoming"><i class="fa fa-fw fa-book"></i>Upcoming Booking Reports</a>
+                        </li>
+                        <li>
+                            <a href="/Home/GetReport?scope=current"><i class="fa fa-fw fa-book"></i>Current Booking Reports</a>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        @RenderBody()
+    </div>
+    <script src="~/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/js/bootstrap.min.js"></script>
+
+    @RenderSection("myscript", false)
+    <script type="text/javascript">
+        $(".message-preview").click(function () {
+            var slot = $(this);
+            var bookingId = $(this).data('bookingid');
+            alert("/home/SeenByAdmin/" + bookingId);
+            $.ajax({
+                url: "/home/SeenByAdmin/",
+                data: { id: bookingId }
+
+            }).done(function (res) {
+
+                slot.remove();
+                location.reload();               
+            })
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+﻿@using VehicleReservationSystem.WebUI.Models
+@model VehicleTypeModel
+
+@using (Html.BeginForm("create", "types", FormMethod.Post, new { id = "ceatedeptform", enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter Vehicle Type Name" })
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Save</button>
+    </div>
+}
+
+
+
+

@@ -1,0 +1,67 @@
+﻿
+@using  VehicleReservationSystem.Domain.VehicleManagement
+@model VehicleReservationSystem.Domain.VehicleManagement.Seat
+
+
+
+@using (Html.BeginForm("edit", "seats", FormMethod.Post, new { id = "ceatedeptform", enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBox("Seatno", Model.SeatNumber, null, new { @class = "form-control", placeholder = "Enter Seat Number", type = "number" })
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+
+    <label>Select Available Seat</label>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            <select class="form-control" name="isAvail">
+                <option value="@Model.Id">@(Model.Is_Available==true ? true:false</option>
+                <option value="@Model.Is_Available">False</option>
+                <option value="@Model.Is_Available">True</option>
+
+                
+
+             
+                
+               
+            </select>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <label>Select Vehilce Name</label>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            <select class="form-control" name="VehicleName">
+                <option value="@Model.Vehicle.Id">@Model.Vehicle.Name</option>
+                @foreach (var v in (IEnumerable<Vehicle>)ViewBag.Vehicles)
+                {
+                    <option value="@v.Id">@v.Name</option>
+                }
+            </select>
+
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Update</button>
+    </div>
+}
+
+
+
+

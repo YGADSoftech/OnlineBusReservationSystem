@@ -1,0 +1,96 @@
+﻿@using VehicleReservationSystem.Domain.UserManagement
+
+
+@{
+    User currentUser = Session[WebUtil.CURRENT_USER] as User;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" lang="en-us" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    @RenderSection("mystyles", false)
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" >
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainmenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/Home/Admin/"><span class="glyphicon glyphicon-road"></span> TRAVELLO</a>
+                </div>
+                <div class="collapse navbar-collapse" id="mainmenu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @if (string.IsNullOrWhiteSpace(currentUser.ImageUrl))
+                                {
+                                    <img src="@Url.Content("~/Images/others/user.png")" class="img-circle" style="width:25px;height:25px;" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(currentUser.ImageUrl)" class="img-circle" style="width:25px;height:25px;" />
+                                }
+
+                                <span>@currentUser.FistName @currentUser.LastName<span class="caret"></span> </span>
+                            </a>
+
+
+                            <ul class="dropdown-menu " id="dm">
+                                <li style="padding:15px;text-align:center">
+                                    @if (string.IsNullOrWhiteSpace(currentUser.ImageUrl))
+                                    {
+                                        <img src="@Url.Content("~/Images/others/user.png")" style="width:100px;height:100px;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@Url.Content(currentUser.ImageUrl)" style="width:100px;height:100px;" />
+                                    }
+
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="/users/AccountSetting"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                <li><a href="/users/ChangePassword"><span class="glyphicon glyphicon-asterisk"></span> Change Password</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Users/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <div id="maincontents" class="container-fluid">
+        <div class="col-lg-3">
+            <ul class="list-group">
+
+                <li class="list-group-item"> <a href="/Cities/manage">Cities</a></li>
+                <li class="list-group-item"> <a href="/Routes/manage">Routes</a></li>
+                <li class="list-group-item"> <a href="/Types/manage">Vehicle Types</a></li>
+                <li class="list-group-item"> <a href="/Vehicles/manage">Vehicles</a></li>
+                <li class="list-group-item"> <a href="/Schedules/manage">Schedules</a></li>
+                <li class="list-group-item"> <a href="/Seats/manage">Seats</a></li>
+                <li class="list-group-item"> <a href="/users/manage">Users</a></li>
+
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("myscript", false)
+</body>
+</html>
+

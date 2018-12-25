@@ -1,0 +1,60 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+@model VehicleReservationSystem.Domain.VehicleManagement.TimeTable
+
+
+
+@using (Html.BeginForm("edit", "schedules", FormMethod.Post, new { id = "ceatedeptform", enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBox("DepartureTime",Model.DepartureTime, null, new { @class = "form-control", placeholder = "Enter Departure TIme", type = "TimeSpan" })
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            <select class="form-control" name="vehicle">
+                <option value="@Model.Vehicle.Id">@Model.Vehicle.Name</option>
+                @foreach (var v in (IEnumerable<Vehicle>)ViewBag.Vehicles)
+                {
+                    <option value="@v.Id">@v.Name</option>
+                }
+            </select>
+
+         </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            <select class="form-control" name="routename">
+                <option value="@Model.Route.Id">@Model.Route.Name</option>
+                @foreach (var r in (IEnumerable<TimeTable>)ViewBag.Routes)
+                {
+                    <option value="@r.Route.Id">@r.Route.Name</option>
+
+                }
+            </select>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Update</button>
+    </div>
+}
+
+
+
+

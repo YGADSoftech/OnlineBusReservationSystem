@@ -1,0 +1,329 @@
+﻿@using VehicleReservationSystem.Domain.VehicleManagement
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_UsersLayoutPage.cshtml";
+
+    List<TimeTable> timetable = TempData["t"] as List<TimeTable>;
+   
+}
+
+
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary" style="background-color:rgba(77, 68, 68, 0.84)">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:White" id="mydialog-title"></h4>
+            </div>
+            <div class="modal-body" id="mydialog-body">
+            </div>
+        </div>
+    </div>
+</div>
+@if (timetable != null)
+{
+    <div class="modal fade" id="Routes" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="background-color:rgba(77, 68, 68, 0.84)">
+                    <h4  class="modal-title" style="color:white">@timetable.First().Route.Name @Session["date"].ToString()</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   
+                </div>
+                <div class="row container">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="modal-body " id="mydialog-body">
+
+                            <table class="table table-bordered col-lg-12">
+                                <thead>
+                                    <tr class="bg-primary" style="color:white">
+
+                                        <th class="col-lg-1">Departure Time</th>
+                                        <th class="col-lg-2 ">From</th>
+                                        <th class="col-lg-2 ">To</th>
+                                        <th class="col-lg-2 ">Vehicle Type</th>
+                                        <th class="col-lg-1 ">Vehicle Number</th>
+                                        <th class="col-lg-1 ">Price</th>
+                                        <th class="col-lg-1 ">Total Seats</th>
+                                        <th class="col-lg-1 ">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var t in timetable)
+                                    {
+                                        <tr style="color:black">
+
+                                            <td class="col-lg-1">@t.DepartureTime</td>
+                                            <td class="col-lg-2 ">@t.Route.Origin.Name</td>     @*Add Origin.Name*@
+                                            <td class="col-lg-2 ">@t.Route.Destination.Name</td>  @*Add Destination.Name*@
+                                            <td class="col-lg-2 ">@t.Vehicle.VehicleType.Name</td>   @*Add VehicleType.Name*@
+                                            <td class="col-lg-1 ">@t.Vehicle.RegistrationNumber</td>
+                                            <td class="col-lg-1 ">@t.Route.Price</td>
+                                            <td class="col-lg-1 ">@t.Vehicle.TotalSeats</td>
+                                            <td class="col-lg-1 ">
+                                                @*<button type="button" class="btn btn-xs btn-warning dgbtn-edit" data-vehicleid="@m.Id"><span class="glyphicon glyphicon-edit"></span> </button>*@
+                                                <a href="Home/Seats/@t.Id" class="btn btn-xs btn-danger " data-getseatid="@t.Id">Book Seat </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                </div>
+               
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@using (Html.BeginForm("index", "home", FormMethod.Post))
+{
+
+<div class="home_search">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="home_search_container">
+                    <div class="home_search_title">Search for your trip</div>
+                    <div class="home_search_content">
+                        <form action="#" class="home_search_form" id="home_search_form">
+                            <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+
+                                <div id="origindiv" class="col-lg-3 input-group">
+
+                                    @Html.DropDownList("Origin", (IEnumerable<SelectListItem>)ViewBag.Cities,"--Select Departure--", new {@class="form-control", required = "required", id = "o" })
+                                    
+                                </div>
+                                <div id="destinationdiv" class="col-lg-3 input-group">
+
+                                    @Html.DropDownList("Dest", (IEnumerable<SelectListItem>)ViewBag.Cities,"--Select Arrival--", new { @class="form-control" , required = "required", id = "d" })
+                                   
+                                </div>
+
+                                    <div class="col-lg-3">
+                                    <input type="date" class="form-control " id="dt">
+                                    </div>
+                                <button class="home_search_button" id="search">Get Schedule</button>
+                            </div>
+                            <div>
+                                <label id ="errorlabel" class="text-center" style="color:red"></label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="intro">
+    @*<div class="intro_background" style="background-image:url(/images/intro.png)"></div>*@
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="intro_container">
+                    <div class="row">
+
+                        <!-- Intro Item -->
+                        <div class="col-lg-4 intro_col">
+                            <div class="intro_item d-flex flex-row align-items-end justify-content-start">
+                                <div class="intro_icon"><img src=@Url.Content("/Content/images/beach.svg") alt=""></div>
+                                <div class="intro_content">
+                                    <div class="intro_title">Top Destinations</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intro Item -->
+                        <div class="col-lg-4 intro_col">
+                            <div class="intro_item d-flex flex-row align-items-end justify-content-start">
+                                <div class="intro_icon"><img src=@Url.Content("/Content/images/wallet.svg") alt=""></div>
+                                <div class="intro_content">
+                                    <div class="intro_title">The Best Prices</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intro Item -->
+                        <div class="col-lg-4 intro_col">
+                            <div class="intro_item d-flex flex-row align-items-end justify-content-start">
+                                <div class="intro_icon"><img src=@Url.Content("/Content/images/suitcase.svg") alt=""></div>
+                                <div class="intro_content">
+                                    <div class="intro_title">Amazing Services</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Destinations -->
+
+        <div class="destinations" id="destinations">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="section_subtitle">simply amazing places</div>
+                        <div class="section_title"><h2>Popular Destinations</h2></div>
+                    </div>
+                </div>
+                <div class="row destinations_row">
+                    <div class="col">
+                        <div class="destinations_container item_grid">
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/Lahore.jpg") alt="">
+                                    <div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Lahore</a></div>
+
+                                </div>
+                            </div>
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/MUL.jpg") alt="">
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Multan</a></div>
+
+                                </div>
+                            </div>
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/Rawal.jpg") alt="">
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Rawalpindi</a></div>
+
+                                </div>
+                            </div>
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/Karachi.jpg") alt="">
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Karachi</a></div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/Man.jpg") alt="">
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Mansara</a></div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Destination -->
+                            <div class="destination item">
+                                <div class="destination_image">
+                                    <img src=@Url.Content("/Content/images/Pes.jpg") alt="">
+                                </div>
+                                <div class="destination_content">
+                                    <div class="destination_title"><a href="destinations.html">Peshawar</a></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+                   
+              
+           
+}
+
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Routes").modal();
+    });
+
+ 
+    $("#search").click(function (event) {
+        event.preventDefault();
+        var o = $("#o").val();
+        var d = $("#d").val();
+        var dt = $("#dt").val();
+        var cd = new Date($.now());
+        if (new Date(dt) < new Date(new Date($.now()))) {
+            $("#errorlabel").text("You Can Not Select Past Date")
+        }
+        else if (o == ""|| d=="" || dt =="") {
+            $("#errorlabel").text("Please Select All Feilds")
+        }
+        else {
+            $.ajax({
+                url: "/Home/GetSchedulebyId/",
+                dataType: "json",
+                data: { OriginID: o, DestID: d, Date: dt },
+                type: "post",
+                //error: function (xhr) {
+                //    alert("Please Enter Location");
+                //},
+                success: function (data) {
+                    window.location.href = data;
+                }
+            });
+        }
+    });
+
+
+    $("#seat").click(function (event) {
+        event.preventDefault();
+       
+       
+        $.ajax({
+
+            url: "/Home/Seats/" 
+            
+
+
+        })
+
+
+    });
+
+</script>
+
+    
+
+
+
+
+
+
+
+

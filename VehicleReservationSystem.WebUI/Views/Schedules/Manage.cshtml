@@ -1,0 +1,152 @@
+﻿
+@using VehicleReservationSystem.Domain.VehicleManagement
+@using VehicleReservationSystem.WebUI.Models
+@model IEnumerable<TimeTable>
+
+@{
+    ViewBag.Title = "Manage Schedules";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+    ViewBag.Notify = new VehiclesHandlers().GetAllNotifications() as List<VehicleReservationSystem.Domain.VehicleManagement.Booking>;
+
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mydialog-title">title here</h4>
+            </div>
+            <div id="mydialog-body" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="space" style="margin-top:70px;">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="bg-primary">
+                <th colspan="5"><span class="glyphicon glyphicon-tags"></span> &nbsp; Manage Time Table  [ <a id="create" style="color:white;" href="/schedules/create">   Add New</a> ] </th>
+            </tr>
+            <tr class="bg-primary">
+                <th class="col-lg-3">Departure Time</th>
+                <th class="col-lg-2">Vehicle Name</th>
+                <th class="col-lg-2">Origin Name</th>
+                <th class="col-lg-2">Destination Name</th>
+                <th class="col-lg-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td class="col-lg-3">@m.DepartureTime</td>
+                        <td class="col-lg-2">@m.Vehicle.Name</td>
+                        <td class="col-lg-2">@m.Route.Origin.Name</td>
+                        <td class="col-lg-2">@m.Route.Destination.Name</td>
+
+
+                        <td class="col-lg-3">
+                            <button type="button" class="btn btn-xs btn-warning dgbtn-edit" data-scheduleid="@m.Id"><span class="glyphicon glyphicon-edit"></span> </button>
+                            <button type="button" class="btn btn-xs btn-danger dgbtn-delete" data-scheduleid="@m.Id"><span class="glyphicon glyphicon-trash"></span> </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    </div>
+    @section myscript{
+
+        <script type="text/javascript">
+
+            $(function () {
+                $("tbody").css("color", "white");
+                $("#create").click(function (event) {
+                    event.preventDefault();
+                    $.ajax(
+
+                        {
+                            url: "/schedules/create"
+                        }
+
+                    ).done(function (createform) {
+                        $("#mydialog-title").html("<span class='glyphicon glyphicon-tags'></span> Add Schedules");
+                        $("#mydialog-body").html(createform);
+                        $("#mydialog").modal();
+                    });
+
+                });
+
+
+
+                $(".dgbtn-delete").click(function (event) {
+                    event.preventDefault();
+                    var vid = $(this).data("scheduleid");
+                    $("#mydialog-title").html("Delete Schedule");
+                    $("#mydialog-body").html("<h4>Do you really want to delete this schedule?</h4>");
+                    $("#mydialog-body").append(" <button id='yes' type='submit' class='btn pull- right'>Yes</button>");
+                    $("#mydialog-body").append(" <button id ='cancel'type='reset' class='btn pull- right'>No</button>");
+                    $("#mydialog").modal();
+                    $("#yes").click(function () {
+
+                        $.ajax({
+
+
+                            url: "/schedules/delete/" + vid,
+                            type: "post",
+                            success: function (data) {
+                                window.location.href = data;
+                            }
+
+                        });
+
+
+                    });
+
+                    $("#cancel").click(function () {
+                        location.reload();
+                    });
+
+                });
+
+
+                $(".dgbtn-edit").click(function (event) {
+                    event.preventDefault();
+                    var vid = $(this).data("scheduleid");
+                    $.ajax(
+                        {
+                            url: "/schedules/edit/" + vid
+                        }
+                    ).done(function (editform) {
+                        $("#mydialog-title").html("<span class='glyphicon glyphicon-edit'></span> Edit Schedule");
+                        $("#mydialog-body").html(editform);
+                        $("#mydialog").modal();
+                    });
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+
+    }
+
+
+

@@ -1,0 +1,168 @@
+﻿
+@using VehicleReservationSystem.Domain.VehicleManagement
+@using VehicleReservationSystem.Domain.UserManagement
+@using VehicleReservationSystem.WebUI.Models
+@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "Manage Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+    ViewBag.Notify = new VehiclesHandlers().GetAllNotifications() as List<VehicleReservationSystem.Domain.VehicleManagement.Booking>;
+
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" aria-labelledby="mydialog-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mydialog-title">title here</h4>
+            </div>
+            <div id="mydialog-body" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="space" style="margin-top:70px;">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="bg-primary">
+                <th colspan="8"><span class="glyphicon glyphicon-tags"></span> &nbsp; Manage Users [ <a id="create" style="color:white;" href="/users/create">   Add New</a> ] @*&nbsp; <button onclick="/users/pdf" id="report"class="btn btn-danger" >Generate Report*@</button> </th>
+            </tr>
+            <tr class="bg-primary">
+                <th class="col-lg-1">FirstName</th>
+                <th class="col-lg-1">LastName</th>
+                <th class="col-lg-3">Email</th>
+
+                <th class="col-lg-1">UserName</th>
+                <th class="col-lg-1">Password</th>
+                <th class="col-lg-2">Contact Number</th>
+                <th class="col-lg-1">Is Active</th>
+                <th class="col-lg-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td class="col-lg-1">@m.FistName</td>
+                        <td class="col-lg-1">@m.LastName</td>
+                        <td class="col-lg-3">@m.Email</td>
+                        <td class="col-lg-1">@m.LoginId</td>
+                        <td class="col-lg-1">@m.Password</td>
+                        <td class="col-lg-2">@m.PhoneNumber</td>
+                        <
+                        <td class="col-lg-1">
+                            @(@m.Is_Active == true ? "Yes" : "No")
+                        </td>
+
+
+
+
+
+                        <td class="col-lg-2">
+                            <button type="button" class="btn btn-xs btn-warning dgbtn-edit" data-userid="@m.Id"><span class="glyphicon glyphicon-edit"></span> </button>
+                            <button type="button" class="btn btn-xs btn-danger dgbtn-delete" data-userid="@m.Id"><span class="glyphicon glyphicon-trash"></span> </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    </div>
+    @section myscript{
+
+        <script type="text/javascript">
+
+            $(function () {
+              
+
+                $("tbody").css("color", "white");
+                $("#create").click(function (event) {
+                    event.preventDefault();
+                    $.ajax(
+
+                        {
+                            url: "/users/create"
+                        }
+
+                    ).done(function (createform) {
+                        $("#mydialog-title").html("<span class='glyphicon glyphicon-tags'></span> Add Users");
+                        $("#mydialog-body").html(createform);
+                        $("#mydialog").modal();
+                    });
+
+                });
+
+
+
+                $(".dgbtn-delete").click(function (event) {
+                    event.preventDefault();
+                    var uid = $(this).data("userid");
+                    $("#mydialog-title").html("Delete User");
+                    $("#mydialog-body").html("<h4>Do you really want to delete this user?</h4>");
+                    $("#mydialog-body").append(" <button id='yes' type='submit' class='btn pull- right'>Yes</button>");
+                    $("#mydialog-body").append(" <button id ='cancel'type='reset' class='btn pull- right'>No</button>");
+                    $("#mydialog").modal();
+                    $("#yes").click(function () {
+
+                        $.ajax({
+
+
+                            url: "/users/delete/" + uid,
+                            type: "post",
+                            success: function (data) {
+                                window.location.href = data;
+                            }
+
+                        });
+
+
+                    });
+
+                    $("#cancel").click(function () {
+                        location.reload();
+                    });
+
+                });
+
+
+                $(".dgbtn-edit").click(function (event) {
+                    event.preventDefault();
+                    var uid = $(this).data("userid");
+                    $.ajax(
+                        {
+                            url: "/users/edit/" + uid
+                        }
+                    ).done(function (editform) {
+                        $("#mydialog-title").html("<span class='glyphicon glyphicon-edit'></span> Edit Seat");
+                        $("#mydialog-body").html(editform);
+                        $("#mydialog").modal();
+                    });
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+
+    }
+
+
+

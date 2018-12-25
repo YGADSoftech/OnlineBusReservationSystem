@@ -1,0 +1,130 @@
+﻿
+@using VehicleReservationSystem.WebUI.Models
+
+@{
+    ViewBag.Title = "Admin SignUp";
+    Layout = "~/Views/Shared/_MainLayoutPage.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+
+
+
+@using (Html.BeginForm("signup", "users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+{
+
+
+
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBox("FirstName",null, new { @class = "form-control", placeholder = "Enter First Name" })
+                     
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("LastName",null, new { @class = "form-control", placeholder = "Enter Last Name"  })
+           
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("username", null, new { @class = "form-control", placeholder = "Enter UserName" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("email",null, new { @class = "form-control", placeholder = "Enter Email" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("Password",null, new { @class = "form-control", placeholder = "Enter Password",type="password" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("ReTypePass", null, new { @class = "form-control", placeholder = "Enter ReType Password", type = "password"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            @Html.TextBox("PhoneNumber",null, new { @class = "form-control", placeholder = "Enter Contact Number"})
+        </div>
+    </div>
+
+
+    <label>Select User Status</label>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+            <select  class="form-control"  name="isActive" id="statuslist">
+                <option></option>
+                <option value="True">Active</option>
+                <option value="False">Un-Active</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <button id="signup" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Register</button>
+        <label id="errorlabel" style="color:rgba(255, 0, 0, 0.81)"></label>
+    </div>
+
+
+
+
+}
+
+
+    
+ @section myScript{
+     <script type="text/javascript">
+         $(".form-control").blur(function () {
+
+             if ($(this).val().length == 0) {
+                 $(this).parent().addClass("has-error");
+                 $(this).parent().removeClass("has-success");
+             }
+             else {
+                 $(this).parent().addClass("has-success");
+                 $(this).parent().removeClass("has-error");
+             }
+
+         });
+
+        
+
+     
+
+
+
+     </script>
+}

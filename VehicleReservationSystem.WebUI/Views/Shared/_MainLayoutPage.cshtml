@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" lang="en-us" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    @RenderSection("mystyles", false)
+    <title>Travello - @ViewBag.Title</title>
+</head>
+
+<body>
+    <main>
+        <div class="modal fade" id="maindialog" tabindex="-1" role="dialog" aria-labelledby="maindialog-label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="maindialog-label">@ViewBag.Title</h4>
+                    </div>
+                    <div class="modal-body">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("myscript", false)
+
+    <script type="text/javascript">
+        $("#maindialog").modal();
+        $(document).ready(function () {
+
+            $("#maindialog").on("hidden.bs.modal", function () {
+                window.location.href = "/Home/Index/";
+            });
+
+        });
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@using VehicleReservationSystem.WebUI.Models
+@model VehiclesModel
+
+@using (Html.BeginForm("create", "vehicles", FormMethod.Post, new { id = "ceatedeptform", enctype = "multipart/form-data" }))
+{
+  
+    <div class="form-group">
+        <div class="input-group has-feedback">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+            @Html.TextBoxFor(m=>m.Name, new { @class = "form-control", placeholder = "Enter name" })
+            <span class="form-control-feedback"></span>
+        </div>
+    </div>
+
+
+
+        <div class="form-group">
+            <div class="input-group has-feedback">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+                @Html.TextBoxFor(m=>m.RegistrationNumber, new { @class = "form-control", placeholder = "Enter Registration Number" })
+                <span class="form-control-feedback"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="input-group has-feedback">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+                @Html.TextBoxFor(m => m.Total_Seats, new { @class = "form-control", placeholder = "Enter Toatl Seats" })
+                <span class="form-control-feedback"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+        <div class="container">
+            <label>Select Picture </label>
+            <input name="pic" type="file" />
+        </div>
+        </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+                @Html.DropDownList("VehicleType", (IEnumerable<SelectListItem>)ViewBag.Types, "- Select Vehicle Type -", new { @class = "form-control" })
+            </div>
+            
+
+       
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>  Save</button>
+        </div>
+}
+
+
+
+

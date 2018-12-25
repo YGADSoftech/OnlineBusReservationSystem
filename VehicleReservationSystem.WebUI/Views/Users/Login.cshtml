@@ -1,0 +1,107 @@
+﻿@using VehicleReservationSystem.WebUI.Models.Users
+@using VehicleReservationSystem.WebUI.Models
+@model LoginModel
+
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_MainLayoutPage.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+
+    <div id="info" class="alert alert-dismissable alert-info">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Info..!</strong> Your password will be sent to your email account..! please check your inbox and login..!
+    </div>
+
+    @using (Html.BeginForm("login", "users", null, FormMethod.Post, new { enctype = "multipart/form_data", rurl = ViewBag.ReturnUrl }))
+    {
+        <div class="form-group">
+            <div class="input-group has-feedback">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                @Html.TextBoxFor(m => m.LoginId, new { placeholder = "Login Id", id = "loginID", @class = "form-control",required="required" })
+                
+                <span class="form-control-feedback"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control",required="required" })
+                <span class="form-control-feedback"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(m => m.RememberMe) <strong>Remember Me</strong>
+                </label>
+            </div>
+        </div>
+
+        <a href="#" id="forgetPass">Forget Password?</a>
+        <label id="lbl" style="color:red"></label>
+
+        <div class="form-group" style="margin-top:10px;">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+        </div>
+   
+    }
+
+@section myscript{
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#info").hide();
+        });
+
+        $("#forgetPass").click(function (event) {
+            event.preventDefault();
+            var loginId = $("#loginID").val();
+            if (loginId.length == 0) {
+                $("#lbl").text("Please your login ID first..!");
+            }
+            else {
+                $("#lbl").hide();
+                $.ajax({
+                    url: "/users/ForgotPassword",
+                    dataType: 'json',
+                    data: { LoginId: loginId }
+                });
+                $("#info").show();
+            }
+
+        });
+
+        $(".form-control").blur(function () {
+
+            if ($(this).val().length == 0) {
+                $(this).parent().addClass("has-error");
+                $(this).parent().removeClass("has-success");
+            }
+            else {
+                $(this).parent().addClass("has-success");
+                $(this).parent().removeClass("has-error");
+            }
+
+        });
+
+       
+
+
+
+    </script>
+    
+    
+    
+    
+    }
+

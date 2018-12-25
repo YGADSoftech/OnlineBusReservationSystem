@@ -1,0 +1,94 @@
+﻿@using VehicleReservationSystem.Domain.UserManagement
+@using VehicleReservationSystem.WebUI.Models
+@model Contact
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_UsersLayoutPage.cshtml";
+    AlertModel alert = TempData["AlertMessage"] as AlertModel;
+}
+
+@if (alert != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert)
+}
+
+
+
+
+	<!-- Contact -->
+
+<div class="contact">
+    <div class="container">
+        <div class="row">
+
+            <!-- Get in touch -->
+            <div class="col-lg-6">
+                <div class="contact_content">
+                    <div class="contact_title">Get in touch with us</div>
+                    <div class="contact_text">
+                        <p>Pellentesque sit amet elementum ccumsan sit amet mattis eget, tristique at leo. Vivamus massa.Tempor massa et laoreet. Pellentesque sit amet elementum ccumsan sit amet mattis eget, tristique at leo. Vivamus massa.</p>
+                    </div>
+                    <div class="contact_list">
+                        <ul>
+                            <li>
+                                <div>address:</div>
+                                <div>Office no 92/G,Lari Ada Lahoe</div>
+                            </li>
+                            <li>
+                                <div>phone:</div>
+                                <div>+92 320 48 41 304</div>
+                            </li>
+                            <li>
+                                <div>email:</div>
+                                <div>junaid.zahid30@gmail.com</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact Form -->
+          
+                <div class="col-lg-6">
+                    <div class="contact_form_container">
+                            
+                      @using (Html.BeginForm("contact", "home", FormMethod.Post))
+                      {
+                        <div id="contact_form" class="contact_form">
+                            <div style="margin-bottom: 18px">
+                                @Html.TextBox("name", null, new { @class = "contact_input contact_input_name inpt", placeholder = " Name", required = "required" })
+                                <div class="input_border"></div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-6" style="margin-bottom: 18px">
+                                    <div>
+                                        @Html.TextBox("email", null, new { @class = "contact_input contact_input_email inpt", placeholder = " E-mail", required = "required" })
+                                        <div class="input_border"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6" style="margin-bottom: 18px">
+                                    <div>
+                                        @Html.TextBox("sub", null, new { @class = "contact_input contact_input_subject inpt", placeholder = " Subject", required = "required" })
+                                        <div class="input_border"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                @Html.TextArea("msg", null, new { @class = "contact_textarea contact_input inpt", placeholder = "Message", required = "required" })
+                                <div class="input_border" style="bottom:3px"></div>
+                            </div>
+                            <button type="submit" class="contact_button">send</button>
+                        </div>
+                      }
+                    </div>
+                </div>
+          
+        </div>
+    </div>
+</div>
+            
+
+
+

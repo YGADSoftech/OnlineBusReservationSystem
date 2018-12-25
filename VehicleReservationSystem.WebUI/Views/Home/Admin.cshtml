@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var notify = ViewBag.Notifications as List<VehicleReservationSystem.Domain.VehicleManagement.Booking>;
+    ViewBag.Notify = notify;
+}
+
+
+<div class="space" style="margin-top:100px;">
+    <div class="row">
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-home fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <h2>Cities</h2>
+
+                        </div>
+                    </div>
+                </div>
+                <a href="/Cities/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-road fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <h2>Routes</h2>
+
+                        </div>
+                    </div>
+                </div>
+                <a href="/Routes/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-bus fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <h2>Types</h2>
+
+                        </div>
+                    </div>
+                </div>
+                <a href="/Types/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-bus fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+
+                            <h2>Vehicles</h2>
+                        </div>
+                    </div>
+                </div>
+                <a href="/Vehicles/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-calendar fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <h2>Schedules</h2>
+
+                        </div>
+                    </div>
+                </div>
+                <a href="/Schedules/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-tag fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+
+                            <h2>Seats</h2>
+                        </div>
+                    </div>
+                </div>
+                <a href="/Seats/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-lg-3 col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-user fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+
+                            <h2>Users</h2>
+                        </div>
+                    </div>
+                </div>
+                <a href="/users/manage">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
